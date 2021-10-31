@@ -101,9 +101,20 @@ Thus, the fourth difference is that **systemd is less focused and larger** than 
 can you tell?*
 The [archlinux wiki on systemd](https://wiki.archlinux.org/title/Systemd) tells us that systemctl is the "main command used to introspect and control systemd is systemctl".
 By entering "systemctl" into the terminal and executing it i confirm that it is present in the VM. From that i infer that systemd is used.
+
+systemd or init will run as the first process in operating system and according to man page, the PID should be 1.
 ```console
-root@debian:/home/fangwenliao# ps -e | less -X
+fangwenliao@debian:~$ ps -e | less -X
   PID TTY          TIME CMD
     1 ?        00:00:01 systemd
-
+```
+or
+```console
+fangwenliao@debian:~$ ps -ef | less -X
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 21:22 ?        00:00:01 /sbin/init
+```
+```console
+fangwenliao@debian:/sbin$ ls -l init
+lrwxrwxrwx 1 root root 20 Jul  8 15:07 init -> /lib/systemd/systemd
 ```
