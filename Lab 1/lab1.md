@@ -101,3 +101,9 @@ Thus, the fourth difference is that **systemd is less focused and larger** than 
 can you tell?*
 The [archlinux wiki on systemd](https://wiki.archlinux.org/title/Systemd) tells us that systemctl is the "main command used to introspect and control systemd is systemctl".
 By entering "systemctl" into the terminal and executing it i confirm that it is present in the VM. From that i infer that systemd is used.
+```console
+root@debian:/home/fangwenliao# ps -e | less -X
+  PID TTY          TIME CMD
+    1 ?        00:00:01 systemd
+
+```
