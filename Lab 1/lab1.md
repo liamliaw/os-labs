@@ -5,17 +5,15 @@
 ## Exercise 1
 
 *(a) Use the lsb_release command to print all the distribution details.*  
-I first consult the man page of lsb_release and find that the **-a** switch is needed to
-print all the distribution details.
+According to the man page of *lsb_release*, it is used to print information about 
+distribution,\
+with the **-a** option it can print all the distribution details.
 
-```bash
+```console
 moritzpfeffer@debian:~$ man lsb_release
 Lots of text
 ```
-
-Then i use the switch to get all distribution information.
-
-```shell
+```console
 moritzpfeffer@debian:~$ lsb_release -a
 No LSB modules are available.
 Distributor ID: Debian
@@ -25,16 +23,12 @@ Codename: stretch
 ```
 
 *(b) Use the uname command to print the kernel release info.*  
-I first consult the man page of uname and find that the **-r** switch is needed to
-print the kernel release info
+In man page of *uname* the **-r** option is for printing the kernel release info.
 
 ```console
 moritzpfeffer@debian:~$ man uname
 Lots of text
 ```
-
-Then i use the switch to get all distribution information.
-
 ```console
 moritzpfeffer@debian:~$ uname -r
 4.9.0-16-686
@@ -44,7 +38,7 @@ moritzpfeffer@debian:~$ uname -r
 
 *(a) Determine the shell that is used by default by using the echo command and
 the $SHELL environment variable.*  
-To get the value of an environment variable we can simply echo it.
+The value of an environment variable can be simply accessed by command *echo*.
 <div style="page-break-after: always;"></div>
 
 ```console
@@ -61,7 +55,7 @@ moritzpfeffer@debian:~$ echo $PATH
 /usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 ```
 
-Thus the directories in $PATH are:
+Thus, the directories in $PATH are:
 
 * /usr/local/bin
 * /usr/bin
@@ -73,8 +67,9 @@ Thus the directories in $PATH are:
 
 *List the number of scripts that run  
 (a) at run level S, (b) run level 2, and (c) run level 5.*  
-Reading the man page of wc i find that the **-l** option reduces the output of wc only to the number of lines fed into it.
-Combining it with ls allows me to count the files in a directory.
+In the man page of *wc* the **-l** option shows the number of lines of data fed to the command.\
+To count the files in a directory, pipe *ls* with *wc -l*.\
+Scripts of each run level [can be found in */etc/rc.x* files](https://www.geeksforgeeks.org/run-levels-linux/).
 
 ```console
 moritzpfeffer@debian:/etc$ ls /etc/rcS.d/ | wc -l
@@ -84,8 +79,7 @@ moritzpfeffer@debian:/etc$ ls /etc/rc2.d/ | wc -l
 moritzpfeffer@debian:/etc$ ls /etc/rc5.d/ | wc -l
 20
 ```
-
-Thus (a) at run level S **10** scripts are run and at (b) run level 2 **20** scripts are run, and at (c) run level 5 **20** scripts are run.
+Therefore, at run level S **10** scripts are running, at run level 2 **20** scripts and at level 5 **20** scripts.
 
 ## Exercise 4
 
