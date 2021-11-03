@@ -5,8 +5,9 @@
 ## Exercise 1
 
 *(a) Use the lsb_release command to print all the distribution details.*  
-According to the man page of *lsb_release* it is used to print information about distribution.  
-With the **-a** option it can print all the distribution details.
+According to the man page of *lsb_release* it can print information about the
+Linux Standard Base and the distribution, which is being used.  
+When passed the **-a** option, it prints all the distribution details.
 
 ```console
 moritzpfeffer@debian:~$ man lsb_release
