@@ -87,12 +87,14 @@ Therefore, at run level S **10** scripts are running, at run level 2 **20** scri
 
 *Research the difference between systemd and init (System V init)  
 (a) describe in your own words the difference between these systems*  
-I will describe four differences between systemd and init.  
+I will describe five differences between systemd and init.  
 One important motivation for systemd was to speed up boot times. To achieve this systemd starts services **on demand** and in **parallel**, while init starts services **serially**. [[1]](http://0pointer.de/blog/projects/systemd.html)  
 Secondly init starts services through shell script, while systemd recommend .service files. Thus, I would say that init uses an **imperative** approach (scripts), whereas systemd prefers a **declarative** one. [[2]](https://danielmiessler.com/study/the-difference-between-system-v-and-systemd/)  
 Thirdly, systemd’s .service files and other unit files can be grouped into **targets**, which **replace init’s runlevels**.  
 Furthermore, systemd contains many more components than init. For example, it features a ntp-implementation called systemd-timesyncd and systemd-timer which can run recurring tasks like cron does.
 Thus, the fourth difference is that **systemd is less focused and larger** than the original init. [[3]](https://lwn.net/Articles/804989/)  
+Fifthly, as for SystemV, all of these programs are open and understandable scripts, while systemd is a complex system of large compiled binary executables that are not understandable without access to the source code. Although it’s open source, it is just less convenient. [[4]](https://link.springer.com/chapter/10.1007/978-1-4842-5455-4_13)
+
 *(b) determine which of the two is used by the operating system you have installed in VirtualBox. How
 can you tell?*  
 The [archlinux wiki on systemd](https://wiki.archlinux.org/title/Systemd) tells us that systemctl is the "main command used to introspect and control systemd is systemctl".
