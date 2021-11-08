@@ -1,6 +1,6 @@
 # Lab 2
 
-**Members: Fangwen Liao (3439869), Yijin Wang (3476217), Moritz Pfeffer (3261671)**
+**Members: Fangwen Liao (3439869) | Yijin Wang (3476217) | Moritz Pfeffer (3261671)**
 
 ## Exercise 1
 
