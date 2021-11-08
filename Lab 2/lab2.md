@@ -9,8 +9,10 @@ I consult the man page of ps and find the **--ppid** switch.
 > --ppid pidlist  
 > Select by parent process ID.  This selects the processes with a parent process ID in pidlist.
 
-output format control      u      Display user-oriented format.
-output modifier       n      Numeric output for WCHAN and USER (including all types of UID and GID).
+To include the UID I use the u option, and to print it numerically I use the n modifier.
+Both are documented in the man pages of ps.
+> u      Display user-oriented format.  
+> n      Numeric output for WCHAN and USER (including all types of UID and GID).
 
 ```console
 moritzpfeffer@debian:~$ ps --ppid 1 nu
@@ -52,11 +54,18 @@ moritzpfeffer@debian:~$ ps --ppid 1 nu
        0 11994  0.0  0.1  14656  7172 ?        Ss   17:24   0:00 /usr/sbin/cupsd -l
 ```
 
-*(b) Filter the list of processes using grep (or awk) such that only processes no kernel threads, e.g. [ kworker ]]) running as username root remain.*
-
+*(b) Filter the list of processes using grep (or awk) such that only processes no kernel threads, e.g. [ kworker ]]) running as username root remain.*  
+I consult the man page of ps and find the **--user** switch.
 > --user userlist  
 > Select by effective user ID (EUID) or name.  Identical to -u and U.
-Like above nu and pipe it into grep where we only include lines without brackets.
+
+Like in (a) I use **nu** and pipe the output into grep.  
+Here I filter out lines with closing brackets using the **-v** switch.  
+These correspond to kernel threads for the following reason:  
+[A post on stackexchange](https://unix.stackexchange.com/questions/22121/what-do-the-brackets-around-processes-mean) tells me that
+ps prints the command in brackets when the process args are unavailable. [Another page](https://gtirloni.com/2017/12/ps-output-processes-with-brackets/) indicates that
+"these will be kernel threads implementing helper functions, specific subsystems, work queues, etc."
+<div style="page-break-after: always;"></div>
 
 ```console
 moritzpfeffer@debian:~$ ps --user root nu | grep -v ]
@@ -85,48 +94,27 @@ moritzpfeffer@debian:~$ ps --user root nu | grep -v ]
        0 11994  0.0  0.1  14656  7172 ?        Ss   17:24   0:00 /usr/sbin/cupsd -l
 ```
 
+Then i verify that this really yields the expected number of processes.
+
 ```console
 moritzpfeffer@debian:~$ ps --user root nu | grep -v ] | wc -l
 23
 ```
 
-*(c) For each of the remaining (~22) processes, provide a 2-3 sentences describing the functionality of each process (Hint: use man / Arch)*
+23 - 1 (header line) = 22. This matches the number indicated in the exercise description of (c).  
+Thus, my command appears to be correct.
 
-*(b) Use the uname command to print the kernel release info.*  
-In man page of *uname* the **-r** option is for printing the kernel release info.
-
-```console
-moritzpfeffer@debian:~$ man uname
-Lots of text
-```
-
-```console
-moritzpfeffer@debian:~$ uname -r
-4.9.0-16-686
-```
+*(c) For each of the remaining (~22) processes, provide a 2-3 sentences describing the functionality of each process (Hint: use man / Arch)*  
+Answer.
 
 ## Exercise 2
 
-*(a) Determine the shell that is used by default by using the echo command and
-the $SHELL environment variable.*  
-The value of an environment variable can be simply accessed by command *echo*.
-<div style="page-break-after: always;"></div>
+## Exercise 3
 
-```console
-moritzpfeffer@debian:~$ ps --user root nu | grep -v ] | wc -l
-23
-```
+## Formatting Collection
 
-This shows that the default shell is *bash* located at */bin/bash*.
-
-*(b) List all the directories found in the $PATH environment variable.*
-
-```console
-moritzpfeffer@debian:~$ echo $PATH
-/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
-```
-
-Thus, the directories in $PATH are:
+*Research the difference between systemd and init (System V init)  
+(a) describe in your own words the difference between these systems*  
 
 * /usr/local/bin
 * /usr/bin
@@ -134,29 +122,6 @@ Thus, the directories in $PATH are:
 * /usr/local/games
 * /usr/games
 
-## Exercise 3
-
-*List the number of scripts that run  
-(a) at run level S, (b) run level 2, and (c) run level 5.*  
-In the man page of *wc* the **-l** option shows the number of lines of data fed to the command.\
-To count the files in a directory, pipe *ls* with *wc -l*.\
-Scripts of each run level [can be found in */etc/rc.x* files](https://www.geeksforgeeks.org/run-levels-linux/).
-
-```console
-moritzpfeffer@debian:/etc$ ls /etc/rcS.d/ | wc -l
-10
-moritzpfeffer@debian:/etc$ ls /etc/rc2.d/ | wc -l
-20
-moritzpfeffer@debian:/etc$ ls /etc/rc5.d/ | wc -l
-20
-```
-
-Therefore, at run level S **10** scripts are running, at run level 2 **20** scripts and at level 5 **20** scripts.
-
-## Exercise 4
-
-*Research the difference between systemd and init (System V init)  
-(a) describe in your own words the difference between these systems*  
 I will describe five differences between systemd and init.  
 One important motivation for systemd was to speed up boot times. To achieve this systemd starts services **on demand** and in **parallel**, while init starts services **serially**. [[1]](http://0pointer.de/blog/projects/systemd.html)  
 Secondly init starts services through shell script, while systemd recommend .service files. Thus, I would say that init uses an **imperative** approach (scripts), whereas systemd prefers a **declarative** one. [[2]](https://danielmiessler.com/study/the-difference-between-system-v-and-systemd/)  
@@ -171,22 +136,3 @@ The [archlinux wiki on systemd](https://wiki.archlinux.org/title/Systemd) tells 
 By entering "systemctl" into the terminal and executing it i confirm that it is present in the VM. From that i infer that systemd is used.
 
 Additionally, systemd or init will run as the first process in operating system and according to man page, the PID should be 1.
-
-```console
-fangwenliao@debian:~$ ps -e | less -X
-  PID TTY          TIME CMD
-    1 ?        00:00:01 systemd
-```
-
-or
-
-```console
-fangwenliao@debian:~$ ps -ef | less -X
-UID        PID  PPID  C STIME TTY          TIME CMD
-root         1     0  0 21:22 ?        00:00:01 /sbin/init
-```
-
-```console
-fangwenliao@debian:/sbin$ ls -l init
-lrwxrwxrwx 1 root root 20 Jul  8 15:07 init -> /lib/systemd/systemd
-```
