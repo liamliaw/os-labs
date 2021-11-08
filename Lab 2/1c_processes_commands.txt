@@ -1,0 +1,22 @@
+/sbin/init
+/lib/systemd/systemd-journald
+/sbin/lvmetad -f
+/lib/systemd/systemd-udevd
+/usr/sbin/irqbalance --foreground
+/lib/systemd/systemd-logind
+/usr/sbin/NetworkManager --no-daemon
+/usr/lib/accountsservice/accounts-daemon
+/usr/sbin/rsyslogd -n
+/usr/sbin/ModemManager
+/usr/lib/policykit-1/polkitd --no-debug
+/usr/sbin/sshd -D
+/usr/sbin/gdm3
+/usr/sbin/VBoxService --pidfile /var/run/vboxadd-service.sh
+/usr/sbin/minissdpd -i 0.0.0.0
+/usr/lib/upower/upowerd
+/sbin/wpa_supplicant -u -s -O /run/wpa_supplicant
+/usr/lib/packagekit/packagekitd
+/usr/sbin/cron -f
+/sbin/dhclient -d -q -sf /usr/lib/NetworkManager/nm-dhcp-helper -pf /var/run/dhclient-enp0s3.pid -lf /var/lib/NetworkManager/dhclient-2b5ae656-5993-4431-82a4-da96c10b4d7e-enp0s3.lease -cf /var/lib/NetworkManager/dhclient-enp0s3.conf enp0s3
+/usr/lib/udisks2/udisksd --no-debug
+/usr/sbin/cupsd -l

@@ -1,0 +1,23 @@
+USER   PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+    0     1  0.0  0.1  28308  6552 ?        Ss   14:45   0:01 /sbin/init
+    0   212  0.0  0.1  11776  6712 ?        Ss   14:45   0:01 /lib/systemd/systemd-journald
+    0   241  0.0  0.0  21868  1528 ?        Ss   14:45   0:00 /sbin/lvmetad -f
+    0   242  0.0  0.1  16240  4100 ?        Ss   14:45   0:00 /lib/systemd/systemd-udevd
+    0   432  0.0  0.0   6612  1940 ?        Ss   14:45   0:00 /usr/sbin/irqbalance --foreground
+    0   433  0.0  0.1   7456  4716 ?        Ss   14:45   0:00 /lib/systemd/systemd-logind
+    0   462  0.0  0.4 101864 15860 ?        Ssl  14:45   0:00 /usr/sbin/NetworkManager --no-daemon
+    0   465  0.0  0.1  39360  6424 ?        Ssl  14:45   0:00 /usr/lib/accountsservice/accounts-daemon
+    0   466  0.0  0.0  23528  2996 ?        Ssl  14:45   0:00 /usr/sbin/rsyslogd -n
+    0   468  0.0  0.2  51904  8392 ?        Ssl  14:45   0:00 /usr/sbin/ModemManager
+    0   486  0.0  0.2  39616  8200 ?        Ssl  14:45   0:00 /usr/lib/policykit-1/polkitd --no-debug
+    0   539  0.0  0.1  10496  5160 ?        Ss   14:45   0:00 /usr/sbin/sshd -D
+    0   710  0.0  0.2  49556  7568 ?        Ssl  14:45   0:00 /usr/sbin/gdm3
+    0   717  0.0  0.0  31868  2988 ?        Sl   14:45   0:03 /usr/sbin/VBoxService --pidfile /var/run/vboxadd-service.sh
+    0   741  0.0  0.0   2100    52 ?        Ss   14:45   0:00 /usr/sbin/minissdpd -i 0.0.0.0
+    0  1003  0.0  0.2  51332  7736 ?        Ssl  14:45   0:00 /usr/lib/upower/upowerd
+    0  1051  0.0  0.1  10796  4472 ?        Ss   14:45   0:00 /sbin/wpa_supplicant -u -s -O /run/wpa_supplicant
+    0  1052  0.0  0.3  64484 13244 ?        Ssl  14:45   0:00 /usr/lib/packagekit/packagekitd
+    0  6174  0.0  0.0   5256  2864 ?        Ss   15:38   0:00 /usr/sbin/cron -f
+    0 10735  0.0  0.1   8124  3744 ?        S    17:19   0:00 /sbin/dhclient -d -q -sf /usr/lib/NetworkManager/nm-dhcp-helper -pf /var/run/dhclient-enp0s3.pid -lf /var/lib/NetworkManager/dhclient-2b5ae656-5993-4431-82a4-da96c10b4d7e-enp0s3.lease -cf /var/lib/NetworkManager/dhclient-enp0s3.conf enp0s3
+    0 11456  0.0  0.2  55620  7480 ?        Ssl  17:19   0:00 /usr/lib/udisks2/udisksd --no-debug
+    0 11994  0.0  0.1  14656  7172 ?        Ss   17:24   0:00 /usr/sbin/cupsd -l
