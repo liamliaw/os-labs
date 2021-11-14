@@ -109,6 +109,54 @@ Answer.
 
 ## Exercise 2
 
+*(a)Run the binary and show the process tree using pstreeand the parent PID.*
+While the fork file is excuting, switch to another tty:
+```console
+fangwenliao@debian:~/Downloads/OS_Lab2/fork$ make
+gcc -w -Werror -o fork fork.c
+fangwenliao@debian:~/Downloads/OS_Lab2/fork$ ./fork
+Main process PID: 1845
+Child PID: 1848
+Child PID: 1847
+Child PID: 1846
+Child PID: 1850
+Child PID: 1849
+Child PID: 1851
+Child PID: 1852
+Press ENTER key to Continue
+
+Process 1847 ended
+
+Process 1846 ended
+
+Process 1848 ended
+
+Process 1852 ended
+
+Process 1850 ended
+
+Process 1851 ended
+
+Process 1849 ended
+
+Process 1845 ended
+```
+Meanwhile switch to another TTY, and run:
+```console
+fangwenliao@debian:~$ pstree -p 1845
+fork(1845)─┬─fork(1846)─┬─fork(1849)───fork(1852)
+           │            └─fork(1851)
+           ├─fork(1847)───fork(1850)
+           └─fork(1848)
+```
+*(b)Explain the number of running processes based on the source code in fork.c.*
+According to man page of fork, the fork() copies the calling process in a seperate memory space and the child process has the same content.
+In the source code there are 3 fork() calls. When process 1845 fork for the first time, it creates 1846, at this point both 1845 and 1846 will run the second fork.
+In the second fork, 1845 and 1846 create correspondly 1849 and 1847, after that 1845, 1846, 1847 1849 are prepared for the third fork.
+Finally 1852, 1851, 1850 1848 are forked. 
+*(c)Do these processes share memory or other resources? Why (not)?*
+Arrording to man page of fork, they are in different memory space, however fork() in Linux use copy-to-write technique, they actually share the same physical memory, because they didn't write anything. 
+
 ## Exercise 3
 
 ## Formatting Collection
