@@ -107,6 +107,23 @@ Thus, my command appears to be correct.
 *(c) For each of the remaining (~22) processes, provide a 2-3 sentences describing the functionality of each process (Hint: use man / Arch)*  
 Answer.
 
+```console
+/usr/sbin/rsyslogd -n
+> It provides support for message logging while avoiding auto-backgrounding.
+/usr/sbin/ModemManager
+> provides a unified high level API for communicating with mobile broadband modems, regardless of the protocol used to communicate with the actual device (Generic AT, vendor-specific AT, QCDM, QMI, MBIM...).
+/usr/lib/policykit-1/polkitd --no-debug
+> polkitd provides the org.freedesktop.PolicyKit1 D-Bus service on the system message bus. Users or administrators should never need to start this daemon as it will be automatically started by dbus-daemon(1) whenever an application calls into the service.
+/usr/sbin/sshd -D
+> provide secure encrypted communications between two untrusted hosts over an insecure network. When this option is specified, sshd will not detach and does not become a daemon.  This allows easy monitoring of sshd.
+/usr/sbin/gdm3
+> gdm3 reads /etc/gdm3/custom.conf for its configuration. For each local display, gdm starts an X server and runs a minimal GNOME session including a graphical greeter. If configured so, the main gdm process also listens for XDMCP requests from remote displays.
+/usr/sbin/VBoxService --pidfile /var/run/vboxadd-service.sh
+> Write the process ID to a file in /var/run/vboxadd-service.sh.
+/usr/sbin/minissdpd -i 0.0.0.0
+> It listens for SSDP traffic and keeps track of what are the UPnP devices up  on  the network while the name  or  IP address of the interface used to listen to SSDP packets coming on multicast address 0.0.0.0.
+```
+
 ## Exercise 2
 
 *(a)Run the binary and show the process tree using pstreeand the parent PID.*
@@ -157,30 +174,100 @@ Finally 1852, 1851, 1850 1848 are forked.
 *(c)Do these processes share memory or other resources? Why (not)?*
 Arrording to man page of fork, they are in different memory space, however fork() in Linux use copy-to-write technique, they actually share the same physical memory, because they didn't write anything. 
 
+
 ## Exercise 3
+*Open the clone directory.* 
 
-## Formatting Collection
+*(a) Implement an application in C that uses (1) a clone() system call to create a process, (2) a clone() system call to create a thread, and (3) a fork() (in that specific order)*
+```console
+#include <stdio.h> //printf()
+#include <unistd.h> //sleep(), getpid(), getppid()
+#include <signal.h> //SIGCHLD flag
+#include <linux/sched.h> //CLONE flag
 
-*Research the difference between systemd and init (System V init)  
-(a) describe in your own words the difference between these systems*  
+void printids(void){
+    printf("TGID: %d\n", getpid());    
+    printf("PPID: %d\n", getppid());
+    printf("\n\n");
+    sleep(1);
+}
 
-* /usr/local/bin
-* /usr/bin
-* /bin
-* /usr/local/games
-* /usr/games
+int child(void *arg)
+{
+    printids();
+}
 
-I will describe five differences between systemd and init.  
-One important motivation for systemd was to speed up boot times. To achieve this systemd starts services **on demand** and in **parallel**, while init starts services **serially**. [[1]](http://0pointer.de/blog/projects/systemd.html)  
-Secondly init starts services through shell script, while systemd recommend .service files. Thus, I would say that init uses an **imperative** approach (scripts), whereas systemd prefers a **declarative** one. [[2]](https://danielmiessler.com/study/the-difference-between-system-v-and-systemd/)  
-Thirdly, systemd’s .service files and other unit files can be grouped into **targets**, which **replace init’s runlevels**.  
-Furthermore, systemd contains many more components than init. For example, it features a ntp-implementation called systemd-timesyncd and systemd-timer which can run recurring tasks like cron does.
-Thus, the fourth difference is that **systemd is less focused and larger** than the original init. [[3]](https://lwn.net/Articles/804989/)  
-Fifthly, as for SystemV, all of these programs are open and understandable scripts, while systemd is a complex system of large compiled binary executables that are not understandable without access to the source code. Although it’s open source, it is just less convenient. [[4]](https://link.springer.com/chapter/10.1007/978-1-4842-5455-4_13)
+int main(void)
+{
+    printids();
 
-*(b) determine which of the two is used by the operating system you have installed in VirtualBox. How
-can you tell?*  
-The [archlinux wiki on systemd](https://wiki.archlinux.org/title/Systemd) tells us that systemctl is the "main command used to introspect and control systemd is systemctl".
-By entering "systemctl" into the terminal and executing it i confirm that it is present in the VM. From that i infer that systemd is used.
+//use a clone to create a process
+    void *child_stack;
+    child_stack = (void *)malloc(1000);
+    if(child_stack == NULL)
+    {
+   	 exit(0);    
+    }
+    printf("This is a child process created by clone ()\n");
+    clone(child, child_stack+1000, SIGCHLD, 0);
+    sleep(1);
 
-Additionally, systemd or init will run as the first process in operating system and according to man page, the PID should be 1.
+//use a clone to create a thread
+    printf("This is a thread created by clone()\n");
+    clone(child, child_stack+2000, CLONE_SIGHAND|CLONE_FS|CLONE_VM|CLONE_FILES, 0);
+    sleep(1);
+
+
+//use a fork
+    pid_t pid;
+    pid = fork();
+    if(pid == 0)
+    {
+   	 printf("This is a child process created by fork()\n");
+   	 printids();
+   	 exit(0);
+    }
+    else if (pid > 0)
+    {
+    wait(NULL);
+    }
+    sleep(1);
+    
+    free(child_stack);
+
+    return 0;
+
+}
+
+```
+*(b) For each of the created processes and threads, print and clearly show the TGID and PPID.*
+```console
+yijinwang@debian:~$ cd /home/yijinwang/Documents
+yijinwang@debian:~/Documents$ gcc -o lab2 lab2.c
+
+yijinwang@debian:~/Documents$ ./lab2
+TGID: 3462
+PPID: 3443
+
+
+This is a child process created by clone ()
+TGID: 3463
+PPID: 3462
+
+
+This is a thread created by clone()
+TGID: 3464
+PPID: 3462
+
+
+This is a child process created by fork()
+TGID: 3466
+PPID: 3462
+
+```
+*(c) Explain why each of the TGIDs and PPIDs have the values as shown.*
+
+The TGID of the first one is also used as process ID. The other three processes are all created by the first process, so they share the same PPID which is the PID of the first one.
+The three child processes fully copy the parent process, each process is guaranteed a unique TGID used to identify.
+
+## Exercise 4
