@@ -103,7 +103,33 @@ moritzpfeffer@debian:~$ ps --user root nu | grep -v ] | wc -l
 
 23 - 1 (header line) = 22. This matches the number indicated in the exercise description of (c).  
 Thus, my command appears to be correct.  
+
 *(c) For each of the remaining (~22) processes, provide a 2-3 sentences describing the functionality of each process (Hint: use man / Arch)*  
+
+| Program Name                             | Description |
+| :--------------------------------------- | :---------- |
+| /sbin/init                               |             |
+| /lib/systemd/systemd-journald            |             |
+| /sbin/lvmetad -f                         |             |
+| /lib/systemd/systemd-udevd               |             |
+| /usr/sbin/irqbalance                     |             |
+| /lib/systemd/systemd-logind              |             |
+| /usr/sbin/NetworkManager                 |             |
+| /usr/lib/accountsservice/accounts-daemon |             |
+| /usr/sbin/rsyslogd                       | It provides support for message logging while avoiding auto-backgrounding. |
+| /usr/sbin/ModemManager                   |  provides a unified high level API for communicating with mobile broadband modems, regardless of the protocol used to communicate with the actual device (Generic AT, vendor-specific AT, QCDM, QMI, MBIM...).            |
+| /usr/lib/policykit-1/polkitd             | polkitd provides the org.freedesktop.PolicyKit1 D-Bus service on the system message bus. Users or administrators should never need to start this daemon as it will be automatically started by dbus-daemon(1) whenever an application calls into the service.            |
+| /usr/sbin/sshd                           | Provides secure encrypted communications between two untrusted hosts over an insecure network. When this option is specified, sshd will not detach and does not become a daemon.  This allows easy monitoring of sshd.            |
+| /usr/sbin/gdm3                           | gdm3 reads /etc/gdm3/custom.conf for its configuration. For each local display, gdm starts an X server and runs a minimal GNOME session including a graphical greeter. If configured so, the main gdm process also listens for XDMCP requests from remote displays.            |
+| /usr/sbin/VBoxService                    | Enables interoperability between host and the VM such as copy paste, shared folders etc. Also writes the process ID of the service to a file in /var/run/vboxadd-service.sh.            |
+| /usr/sbin/minissdpd                      |  It listens for SSDP traffic and keeps track of what are the UPnP devices up  on  the network while the name  or  IP address of the interface used to listen to SSDP packets coming on multicast address 0.0.0.0.            |
+| /usr/lib/upower/upowerd                  |             |
+| /sbin/wpa_supplicant                     |             |
+| /usr/lib/packagekit/packagekitd          |             |
+| /usr/sbin/cron                           |             |
+| /sbin/dhclient                           |             |
+| /usr/lib/udisks2/udisksd                 |             |
+| /usr/sbin/cupsd                          |             |
 
 ```console
 /usr/sbin/rsyslogd -n
