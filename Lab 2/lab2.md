@@ -178,94 +178,80 @@ Arrording to man page of fork, they are in different memory space, however fork(
 
 ## Exercise 3
 
-*Open the clone directory.*  
-*(a) Implement an application in C that uses (1) a clone() system call to create a process, (2) a clone() system call to create a thread, and (3) a fork() (in that specific order)*  
+*(a) Implement an application in C that uses (1) a clone() system call to create a process, (2) a clone() system call to create a thread, and (3) a fork() (in that specific order)*
+```console
+#include <stdio.h> // printf()
+#include <unistd.h> // sleep(), getpid(), getppid()
+#include <signal.h> // SIGCHLD flag
+#include <linux/sched.h> // CLONE flags
 
-```c
-#include <stdio.h> //printf()
-#include <unistd.h> //sleep(), getpid(), getppid()
-#include <signal.h> //SIGCHLD flag
-#include <linux/sched.h> //CLONE flag
-
-void printids(void){
-    printf("TGID: %d\n", getpid());    
-    printf("PPID: %d\n", getppid());
-    printf("\n\n");
-    sleep(1);
+void printids(void) {
+  printf("TGID: %d\n", getpid()); // Print the TGID of the current process
+  printf("PPID: %d\n", getppid()); // Print the PPID of the current process  
+  printf("\n\n");
+  sleep(1);
 }
 
-int child(void *arg)
+int child(void *arg) 
 {
-    printids();
+  printids();
 }
+
 
 int main(void)
 {
-    printids();
+  printf("This is the parent process.\n");
+  printids(); // IDs of the main process
+  getchar();
 
-//use a clone to create a process
-    void *child_stack;
-    child_stack = (void *)malloc(1000);
-    if(child_stack == NULL)
-    {
-   	 exit(0);    
-    }
-    printf("This is a child process created by clone ()\n");
-    clone(child, child_stack+1000, SIGCHLD, 0);
-    sleep(1);
+  printf("This is a child process created by clone().\n");
+  void *child_stack;
+  child_stack = (void*)malloc(1024);
+  clone(&child, child_stack+1024, SIGCHLD, 0);
+  getchar(); // Press a key to continue
 
-//use a clone to create a thread
-    printf("This is a thread created by clone()\n");
-    clone(child, child_stack+2000, CLONE_SIGHAND|CLONE_FS|CLONE_VM|CLONE_FILES, 0);
-    sleep(1);
+  printf("This is a thread created by clone().\n");
+  clone(&child, child_stack+2048, CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND, 0);
+  getchar();
 
+  printf("This is a fork().\n");
+  fork();
+  getchar();
 
-//use a fork
-    pid_t pid;
-    pid = fork();
-    if(pid == 0)
-    {
-   	 printf("This is a child process created by fork()\n");
-   	 printids();
-   	 exit(0);
-    }
-    else if (pid > 0)
-    {
-    wait(NULL);
-    }
-    sleep(1);
-    
-    free(child_stack);
-
-    return 0;
-
+  return 0;
 }
 ```
 
 *(b) For each of the created processes and threads, print and clearly show the TGID and PPID.*
 
 ```console
-yijinwang@debian:~$ cd /home/yijinwang/Documents
-yijinwang@debian:~/Documents$ gcc -o lab2 lab2.c
-
-yijinwang@debian:~/Documents$ ./lab2
-TGID: 3462
-PPID: 3443
+fangwenliao@debian:~/Downloads/OS_Lab2/clone$ ./clone 
+This is the parent process.
+TGID: 1739
+PPID: 1676
 
 
-This is a child process created by clone ()
-TGID: 3463
-PPID: 3462
+
+This is a child process created by clone().
+TGID: 1743
+PPID: 1739
 
 
-This is a thread created by clone()
-TGID: 3464
-PPID: 3462
+
+This is a thread created by clone().
+TGID: 1744
+PPID: 1739
 
 
-This is a child process created by fork()
-TGID: 3466
-PPID: 3462
+
+This is a fork().
+```
+
+```console
+fangwenliao@debian:~/Downloads/OS_Lab2/clone$ pstree -pg 1739
+clone(1739,1739)─┬─clone(1743,1739)
+                 ├─clone(1744,1739)
+                 └─clone(1745,1739)
 ```
 
 *(c) Explain why each of the TGIDs and PPIDs have the values as shown.*
