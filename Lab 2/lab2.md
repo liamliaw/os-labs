@@ -307,12 +307,9 @@ MODULE_AUTHOR(M_AUTHOR);
 MODULE_DESCRIPTION(M_DESC);
 ```
 
-*(b) Show the output of the kern.log related to your module.*  
+*(b) Show the output of the kern.log related to your module.*
 
 ```console
-Nov 16 21:34:27 debian kernel: [ 3190.100260] sudo	7788	7788
-Nov 16 21:34:27 debian kernel: [ 3190.100260] insmod	7789	7789
-Nov 16 21:35:57 debian kernel: [ 3280.526929] pm: exit(void)
 Nov 16 21:35:59 debian kernel: [ 3282.503447] pm: init(void)
 Nov 16 21:35:59 debian kernel: [ 3282.503448] pm: Module author = Moritz Pfeffer <st152880@stud.uni-stuttgart.de>
 Nov 16 21:35:59 debian kernel: [ 3282.503448] pm: Module description = Process Module
@@ -570,4 +567,6 @@ Nov 16 21:35:59 debian kernel: [ 3282.503624] sudo	8339	8339
 Nov 16 21:35:59 debian kernel: [ 3282.503625] insmod	8340	8340
 ```
 
-(c) Which parts of the kernel module execute in kernel space?  
+*(c) Which parts of the kernel module execute in kernel space?*  
+All parts of the kernel module execute in kernel space. This can be seen from the fact that the kernel function
+*printk* is available in all the procedures i.e. init, exit and list_processes.
