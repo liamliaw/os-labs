@@ -179,7 +179,7 @@ Arrording to man page of fork, they are in different memory space, however fork(
 ## Exercise 3
 
 *(a) Implement an application in C that uses (1) a clone() system call to create a process, (2) a clone() system call to create a thread, and (3) a fork() (in that specific order)*
-```console
+```c
 #include <stdio.h> // printf()
 #include <unistd.h> // sleep(), getpid(), getppid()
 #include <signal.h> // SIGCHLD flag
