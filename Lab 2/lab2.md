@@ -108,14 +108,14 @@ Thus, my command appears to be correct.
 
 | Program Name                             | Description |
 | :--------------------------------------- | :---------- |
-| /sbin/init                               |             |
-| /lib/systemd/systemd-journald            |             |
-| /sbin/lvmetad -f                         |             |
-| /lib/systemd/systemd-udevd               |             |
-| /usr/sbin/irqbalance                     |             |
-| /lib/systemd/systemd-logind              |             |
-| /usr/sbin/NetworkManager                 |             |
-| /usr/lib/accountsservice/accounts-daemon |             |
+| /sbin/init                               | This is the first running process with PID 1. On our system it links to /lib/systemd/systemd. It is responsible for bringing up services, running init scripts, mounting filesystems. Systemd was created by Lennart Poettering and replaces the SystemV init as discussed in exercise 1. *(man + Arch)* |
+| /lib/systemd/systemd-journald            | systemd-journald is a part of systemd and a service that aggregates logging message from various sources e.g. kernel logs. Logging messages are classified by their source and priority. *(man + Arch)* |
+| /sbin/lvmetad                         | lvmetad serves as cache for LVM metadata. LVM stands for logical volume manager and is a storage abstraction layer. *(man)*   |
+| /lib/systemd/systemd-udevd               |  [Wikipedia](https://en.wikipedia.org/wiki/Udev#Operation) says that udev stands for "userspace /dev" and that it is a device manager. The kernel emits a uevent for example when a usb device is plugged in. Systemd-udevd itself runs in userspace but listens to these events. Then it creates or removes corresponding entries in /dev [[1]](https://www.linux-community.de/ausgaben/linuxuser/2019/05/unsichtbarer-helfer/) |
+| /usr/sbin/irqbalance                     | irqbalance distributes "interrupts accross processors on a multiprocessor system". It allows the user to customize the handling of interrupts by providing a policy script targeted at a specific IRQ. *(man)*|
+| /lib/systemd/systemd-logind              | systemd-logind is a service that handles user authentication. According to man, this includes "keeping track of users and sessions", session management and "device access management for users".           |
+| /usr/sbin/NetworkManager                 | NetworkManger is a service with the goal of simplyfying networking. It can manage multiple connection e.g. (Wifi + 3G) at once. Also it has the default policy to connect to networks whenever available. *(man)*|
+| /usr/lib/accountsservice/accounts-daemon | The accounts-daemon resides in the /usr/lib/accountsservice directory which shows that it is part of the [AccountsService by freedesktop](https://www.freedesktop.org/wiki/Software/AccountsService/). It exposes a "D-Bus interface for querying and manipulating user account information" (*man*). Apparently, this makes for a more convenient API as developers don't have to fork of programs such as adduser [[2]](https://news.ycombinator.com/item?id=25054695).|
 | /usr/sbin/rsyslogd                       | It provides support for message logging while avoiding auto-backgrounding. |
 | /usr/sbin/ModemManager                   |  provides a unified high level API for communicating with mobile broadband modems, regardless of the protocol used to communicate with the actual device (Generic AT, vendor-specific AT, QCDM, QMI, MBIM...).            |
 | /usr/lib/policykit-1/polkitd             | polkitd provides the org.freedesktop.PolicyKit1 D-Bus service on the system message bus. Users or administrators should never need to start this daemon as it will be automatically started by dbus-daemon(1) whenever an application calls into the service.            |
