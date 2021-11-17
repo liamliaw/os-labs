@@ -267,12 +267,13 @@ PPID: 16846
 Lets look at all PPIDs first.  
 We have [Parent Process].PID = [Parent Process].TGID = [Clone Process].PPID = [Fork Process].PPID.  
 That is because [Parent Process] spawns the other two processes and is their parent.  
-Also [Parent Process].PPID = [Clone Thread].PPID because both have the same parent which is the shell.
+In contrast, [Parent Process].PID != [Clone Thread].PPID.  
+But, [Parent Process].PPID == [Clone Thread].PPID because both have the same parent which is the shell.
 
 Now lets look at TGIDs.  
 [Parent Process], [Clone Process] and [Fork Process] each have their own TGID which also serves as their PID because
 they are distinct processes.  
-Only [Parent Process].TGID = [Clone Thread].TGID because both run in the same process.
+Only [Parent Process].TGID = [Clone Thread].TGID because both threads run in the same process.
 
 ## Exercise 4
 
