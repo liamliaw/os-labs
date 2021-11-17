@@ -202,88 +202,77 @@ Finally 1852, 1851, 1850 1848 are forked.
 *(c) Do these processes share memory or other resources? Why (not)?*
 Arrording to man page of fork, they are in different memory space, however fork() in Linux use copy-to-write technique, they actually share the same physical memory, because they didn't write anything.
 
+<div style="page-break-after: always;"></div>
+
 ## Exercise 3
 
-*(a) Implement an application in C that uses (1) a clone() system call to create a process, (2) a clone() system call to create a thread, and (3) a fork() (in that specific order)*
+*(a) Implement an application in C that uses (1) a clone() system call to create a process, (2) a clone() system call to create a thread, and (3) a fork() (in that specific order)*  
+
 ```c
-#include <stdio.h> // printf()
-#include <unistd.h> // sleep(), getpid(), getppid()
-#include <signal.h> // SIGCHLD flag
+#include <stdio.h>       // printf()
+#include <unistd.h>      // sleep(), getpid(), getppid()
+#include <signal.h>      // SIGCHLD flag
 #include <linux/sched.h> // CLONE flags
+#include <stdlib.h>      // malloc
 
-void printids(void) {
-  printf("TGID: %d\n", getpid()); // Print the TGID of the current process
-  printf("PPID: %d\n", getppid()); // Print the PPID of the current process  
-  printf("\n\n");
-  sleep(1);
-}
-
-int child(void *arg) 
+void printids()
 {
-  printids();
+    printf("TGID: %d\n", getpid());   // Print the TGID of the current process
+    printf("PPID: %d\n", getppid()); // Print the PPID of the current process
 }
-
 
 int main(void)
 {
-  printf("This is the parent process.\n");
-  printids(); // IDs of the main process
-  getchar();
-
-  printf("This is a child process created by clone().\n");
-  void *child_stack;
-  child_stack = (void*)malloc(1024);
-  clone(&child, child_stack+1024, SIGCHLD, 0);
-  getchar(); // Press a key to continue
-
-  printf("This is a thread created by clone().\n");
-  clone(&child, child_stack+2048, CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND, 0);
-  getchar();
-
-  printf("This is a fork().\n");
-  fork();
-  getchar();
-
-  return 0;
+    printf("[Parent Process]\n");
+    printids(); // IDs of the main process
+    printf("[Clone Process]\n");
+    void *child_stack;
+    child_stack = (void *)malloc(8192);
+    clone(&printids, child_stack + 8192, CLONE_CHILD_CLEARTID | CLONE_CHILD_SETTID | SIGCHLD);
+    wait();
+    free(child_stack);
+    printf("[Clone Thread]\n");
+    void *child_stack2;
+    child_stack2 = (void *)malloc(8192);
+    clone(&printids, child_stack2 + 8192, CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND | CLONE_THREAD, 0);
+    sleep(1);
+    if (fork() == 0) {
+        printf("[Fork Process]\n");
+        printids();
+    }
+    wait();
+    free(child_stack2);
 }
 ```
 
 *(b) For each of the created processes and threads, print and clearly show the TGID and PPID.*
 
 ```console
-fangwenliao@debian:~/Downloads/OS_Lab2/clone$ ./clone 
-This is the parent process.
-TGID: 1739
-PPID: 1676
-
-
-
-This is a child process created by clone().
-TGID: 1743
-PPID: 1739
-
-
-
-This is a thread created by clone().
-TGID: 1744
-PPID: 1739
-
-
-
-This is a fork().
+moritzpfeffer@debian:~$ ./a.out 
+[Parent Process]
+TGID: 16846
+PPID: 16073
+[Clone Process]
+TGID: 16847
+PPID: 16846
+[Clone Thread]
+TGID: 16846
+PPID: 16073
+[Fork Process]
+TGID: 16850
+PPID: 16846
 ```
 
-```console
-fangwenliao@debian:~/Downloads/OS_Lab2/clone$ pstree -pg 1739
-clone(1739,1739)─┬─clone(1743,1739)
-                 ├─clone(1744,1739)
-                 └─clone(1745,1739)
-```
+*(c) Explain why each of the TGIDs and PPIDs have the values as shown.*  
+Lets look at all PPIDs first.  
+We have [Parent Process].PID = [Parent Process].TGID = [Clone Process].PPID = [Fork Process].PPID.  
+That is because [Parent Process] spawns the other two processes and is their parent.  
+Also [Parent Process].PPID = [Clone Thread].PPID because both have the same parent which is the shell.
 
-*(c) Explain why each of the TGIDs and PPIDs have the values as shown.*
-
-The TGID of the first one is also used as process ID. The other three processes are all created by the first process, so they share the same PPID which is the PID of the first one.
-The three child processes fully copy the parent process, each process is guaranteed a unique TGID used to identify.
+Now lets look at TGIDs.  
+[Parent Process], [Clone Process] and [Fork Process] each have their own TGID which also serves as their PID because
+they are distinct processes.  
+Only [Parent Process].TGID = [Clone Thread].TGID because both run in the same process.
 
 ## Exercise 4
 
