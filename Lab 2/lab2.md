@@ -123,13 +123,13 @@ Thus, my command appears to be correct.
 | /usr/sbin/gdm3                           | gdm3 reads /etc/gdm3/custom.conf for its configuration. For each local display, gdm starts an X server and runs a minimal GNOME session including a graphical greeter. If configured so, the main gdm process also listens for XDMCP requests from remote displays.            |
 | /usr/sbin/VBoxService                    | Enables interoperability between host and the VM such as copy paste, shared folders etc. Also writes the process ID of the service to a file in /var/run/vboxadd-service.sh.            |
 | /usr/sbin/minissdpd                      |  It listens for SSDP traffic and keeps track of what are the UPnP devices up  on  the network while the name  or  IP address of the interface used to listen to SSDP packets coming on multicast address 0.0.0.0.            |
-| /usr/lib/upower/upowerd                  |             |
-| /sbin/wpa_supplicant                     |             |
-| /usr/lib/packagekit/packagekitd          |             |
-| /usr/sbin/cron                           |             |
-| /sbin/dhclient                           |             |
-| /usr/lib/udisks2/udisksd                 |             |
-| /usr/sbin/cupsd                          |             |
+| /usr/lib/upower/upowerd                  |UPower gives an interface of power source energy management and [upowerd](https://manpages.debian.org/stretch/upower/upowerd.8) provides this service on the system bus. it automatically starts.             |
+| /sbin/wpa_supplicant                     |it is a backend for wireless network interface configuration, it starts when the wireless interface is raised. [How to use a WiFi interface](https://wiki.debian.org/WiFi/HowToUse#wpa_supplicant)             |
+| /usr/lib/packagekit/packagekitd          |[PackageKit](https://wiki.debian.org/PackageKit) makes software tast easier.            |
+| /usr/sbin/cron                           |it is responsible for the [time based job scheduling](https://wiki.debian.org/cron) in UNIX.             |
+| /sbin/dhclient                           |it is used go configure the [DHCP client](https://wiki.debian.org/DHCP_Server) when setting up a LAN.             |
+| /usr/lib/udisks2/udisksd                 |[udisks](https://manpages.debian.org/testing/udisks2/udisks.8.en.html) is used to operate disks or storage devices and udisksd is its daemon that starts automatically.             |
+| /usr/sbin/cupsd                          |[CUPS](https://manpages.debian.org/testing/cups/cups.1.en.html) prints from user applications, it converts informations for the printer to understand, and [cupsd](https://manpages.debian.org/testing/cups-daemon/cupsd.8.en.html) is its scheduler.             |
 
 ```console
 /usr/sbin/rsyslogd -n
