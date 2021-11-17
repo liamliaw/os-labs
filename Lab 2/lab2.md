@@ -194,13 +194,13 @@ fork(1845)─┬─fork(1846)─┬─fork(1849)───fork(1852)
            └─fork(1848)
 ```
 
-*(b) Explain the number of running processes based on the source code in fork.c.*
-According to man page of fork, the fork() copies the calling process in a seperate memory space and the child process has the same content.
+*(b) Explain the number of running processes based on the source code in fork.c.*  
+According to the man page of fork, the fork() copies the calling process in a separate memory space and the child process has the same content.
 In the source code there are 3 fork() calls. When process 1845 fork for the first time, it creates 1846, at this point both 1845 and 1846 will run the second fork.
 In the second fork, 1845 and 1846 create correspondly 1849 and 1847, after that 1845, 1846, 1847 1849 are prepared for the third fork.
 Finally 1852, 1851, 1850 1848 are forked.  
-*(c) Do these processes share memory or other resources? Why (not)?*
-Arrording to man page of fork, they are in different memory space, however fork() in Linux use copy-to-write technique, they actually share the same physical memory, because they didn't write anything.
+*(c) Do these processes share memory or other resources? Why (not)?*  
+According to man page of fork, they are in different memory space, however fork() in Linux uses copy-on-write technique, they actually share the same physical memory, because they didn't write anything.
 
 <div style="page-break-after: always;"></div>
 
