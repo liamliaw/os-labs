@@ -131,23 +131,6 @@ Thus, my command appears to be correct.
 | /usr/lib/udisks2/udisksd                 |[udisks](https://manpages.debian.org/testing/udisks2/udisks.8.en.html) is used to operate disks or storage devices and udisksd is its daemon that starts automatically.             |
 | /usr/sbin/cupsd                          |[CUPS](https://manpages.debian.org/testing/cups/cups.1.en.html) prints from user applications, it converts informations for the printer to understand, and [cupsd](https://manpages.debian.org/testing/cups-daemon/cupsd.8.en.html) is its scheduler.             |
 
-```console
-/usr/sbin/rsyslogd -n
-> It provides support for message logging while avoiding auto-backgrounding.
-/usr/sbin/ModemManager
-> provides a unified high level API for communicating with mobile broadband modems, regardless of the protocol used to communicate with the actual device (Generic AT, vendor-specific AT, QCDM, QMI, MBIM...).
-/usr/lib/policykit-1/polkitd --no-debug
-> polkitd provides the org.freedesktop.PolicyKit1 D-Bus service on the system message bus. Users or administrators should never need to start this daemon as it will be automatically started by dbus-daemon(1) whenever an application calls into the service.
-/usr/sbin/sshd -D
-> provide secure encrypted communications between two untrusted hosts over an insecure network. When this option is specified, sshd will not detach and does not become a daemon.  This allows easy monitoring of sshd.
-/usr/sbin/gdm3
-> gdm3 reads /etc/gdm3/custom.conf for its configuration. For each local display, gdm starts an X server and runs a minimal GNOME session including a graphical greeter. If configured so, the main gdm process also listens for XDMCP requests from remote displays.
-/usr/sbin/VBoxService --pidfile /var/run/vboxadd-service.sh
-> Write the process ID to a file in /var/run/vboxadd-service.sh.
-/usr/sbin/minissdpd -i 0.0.0.0
-> It listens for SSDP traffic and keeps track of what are the UPnP devices up  on  the network while the name  or  IP address of the interface used to listen to SSDP packets coming on multicast address 0.0.0.0.
-```
-
 ## Exercise 2
 
 *(a) Run the binary and show the process tree using pstree and the parent PID.*
