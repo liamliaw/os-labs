@@ -190,22 +190,23 @@ According to man page of fork, they are in different memory space, however fork(
 ## Exercise 3
 
 *(a) Implement an application in C that uses (1) a clone() system call to create a process, (2) a clone() system call to create a thread, and (3) a fork() (in that specific order)*  
+For creating a process using clone, i straced a program that forks to learn the arguments to clone.  
+For creating a thread using clone, i consulted the man pages of clone.
 
 ```c
-#include <stdio.h>       // printf()
-#include <unistd.h>      // sleep(), getpid(), getppid()
-#include <signal.h>      // SIGCHLD flag
 #include <linux/sched.h> // CLONE flags
+#include <signal.h>      // SIGCHLD flag
+#include <stdio.h>       // printf()
 #include <stdlib.h>      // malloc
+#include <unistd.h>      // sleep(), getpid(), getppid()
 
-void printids()
-{
-    printf("TGID: %d\n", getpid());   // Print the TGID of the current process
+void printids() {
+    printf("TGID: %d\n", getpid());  // Print the TGID of the current process
     printf("PPID: %d\n", getppid()); // Print the PPID of the current process
 }
 
-int main(void)
-{
+int main(void) {
+    pid_t pid;
     printf("[Parent Process]\n");
     printids(); // IDs of the main process
     printf("[Clone Process]\n");
@@ -222,9 +223,11 @@ int main(void)
     if (fork() == 0) {
         printf("[Fork Process]\n");
         printids();
+    } else {
+        wait();
+        free(child_stack2);
     }
-    wait();
-    free(child_stack2);
+    return 0;
 }
 ```
 
