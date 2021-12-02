@@ -261,6 +261,7 @@ Difference between real/user time:
 > Real time is the whole elapsed time from start to the end of a call, including time used by other processes and the time spent on being blocked.
 > 
 > User time is only the CPU time spent in user-mode code (outside the kernel) on executing the process.
+> [[1]](https://stackoverflow.com/questions/556405/what-do-real-user-and-sys-mean-in-the-output-of-time1)
 
 
 
@@ -370,7 +371,7 @@ Differences with/without *usleep*:
 Differences with/without *usleep*(both in 30-seconds intervals):
 > Without *usleep*, nonvoluntary context switch is (4456-2717)=1739 times, voluntary context switch is 0,
 > 
-> With *usleep*, nonvoluntarty context switch is (14-13)=1 time, voluntary context switch is (1664328-1264185)=400143 times.
+> With *usleep*, nonvoluntarty context switch is (14-13)=1 time, voluntary context switch is (1664328-1264185)=400143 times, which is roughly the same as the result shown in 3(d).
 
 
 When *uspleep()* is called, the process is suspended, thus the calling process gives CPU times to other process, thats why it has many voluntary switches and very little nonvoluntary switch.
