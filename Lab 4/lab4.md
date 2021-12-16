@@ -36,53 +36,54 @@ Process 1052 ended
 Process 1047 ended
 ```
 The content in the log file is below:
-  1 execve("./fork", ["./fork"], [/* 20 vars */]) = 0
-  2 brk(NULL)                               = 0x62c000
-  3 access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
-  4 mmap2(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb77a2000
-  5 access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
-  6 open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
-  7 fstat64(3, {st_mode=S_IFREG|0644, st_size=99587, ...}) = 0
-  8 mmap2(NULL, 99587, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb7789000
-  9 close(3)                                = 0
- 10 access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
- 11 open("/lib/i386-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
- 12 read(3, "\177ELF\1\1\1\3\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\0\204\1\0004\0\0\0"..., 512) = 512
- 13 fstat64(3, {st_mode=S_IFREG|0755, st_size=1791908, ...}) = 0
- 14 mmap2(NULL, 1800700, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0xb75d1000
- 15 mprotect(0xb7782000, 4096, PROT_NONE)   = 0
- 16 mmap2(0xb7783000, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b1000) =     0xb7783000
- 17 mmap2(0xb7786000, 10748, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0xb778    6000
- 18 close(3)                                = 0
- 19 set_thread_area({entry_number:-1, base_addr:0xb77a3100, limit:1048575, seg_32bit:1, contents:0, rea    d_exec_only:0, limit_in_pages:1, seg_not_present:0, useable:1}) = 0 (entry_number:6)
- 20 mprotect(0xb7783000, 8192, PROT_READ)   = 0
- 21 mprotect(0x4aa000, 4096, PROT_READ)     = 0
- 22 mprotect(0xb77cb000, 4096, PROT_READ)   = 0
- 23 munmap(0xb7789000, 99587)               = 0
- 24 getpid()                                = 1047
- 25 fstat64(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 0), ...}) = 0
- 26 brk(NULL)                               = 0x62c000
- 27 brk(0x64d000)                           = 0x64d000
- 28 write(1, "Main process PID: 1047\n", 23) = 23
- 29 clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xb77a3    168) = 1048
- 30 clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xb77a3    168) = 1051
- 31 clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xb77a3    168) = 1054
- 32 getpid()                                = 1047
- 33 nanosleep({tv_sec=1, tv_nsec=0}, 0xbfca0ae8) = 0
- 34 write(1, "Press ENTER key to Continue\n", 28) = 28
- 35 nanosleep({tv_sec=1, tv_nsec=0}, 0xbfca0ae8) = 0
- 36 fstat64(0, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 0), ...}) = 0
- 37 read(0, 0x62c410, 1024)                 = ? ERESTARTSYS (To be restarted if SA_RESTART is set)
- 38 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=1051, si_uid=1000, si_status=0, si_utime=    0, si_stime=0} ---
- 39 read(0, 0x62c410, 1024)                 = ? ERESTARTSYS (To be restarted if SA_RESTART is set)
- 40 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=1048, si_uid=1000, si_status=0, si_utime=    0, si_stime=0} ---
- 41 read(0, 0x62c410, 1024)                 = ? ERESTARTSYS (To be restarted if SA_RESTART is set)
- 42 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=1054, si_uid=1000, si_status=0, si_utime=    0, si_stime=0} ---
- 43 read(0, "\n", 1024)     
- 44 write(1, "Process 1047 ended\n", 19)    = 19
- 45 exit_group(0)                           = ?
- 46 +++ exited with 0 +++
-
+```
+execve("./fork", ["./fork"], [/* 20 vars */]) = 0
+brk(NULL)                               = 0x62c000
+access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
+mmap2(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb77a2000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+fstat64(3, {st_mode=S_IFREG|0644, st_size=99587, ...}) = 0
+mmap2(NULL, 99587, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb7789000
+close(3)                                = 0
+access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
+open("/lib/i386-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\1\1\1\3\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\0\204\1\0004\0\0\0"..., 512) = 512
+fstat64(3, {st_mode=S_IFREG|0755, st_size=1791908, ...}) = 0
+mmap2(NULL, 1800700, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0xb75d1000
+mprotect(0xb7782000, 4096, PROT_NONE)   = 0
+mmap2(0xb7783000, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b1000) = 0xb7783000
+mmap2(0xb7786000, 10748, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0xb7786000
+close(3)                                = 0
+set_thread_area({entry_number:-1, base_addr:0xb77a3100, limit:1048575, seg_32bit:1, contents:0, read_exec_only:0, limit_in_pages:1, seg_not_present:0, useable:1}) = 0 (entry_number:6)
+mprotect(0xb7783000, 8192, PROT_READ)   = 0
+mprotect(0x4aa000, 4096, PROT_READ)     = 0
+mprotect(0xb77cb000, 4096, PROT_READ)   = 0
+munmap(0xb7789000, 99587)               = 0
+getpid()                                = 1047
+fstat64(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 0), ...}) = 0
+brk(NULL)                               = 0x62c000
+brk(0x64d000)                           = 0x64d000
+write(1, "Main process PID: 1047\n", 23) = 23
+clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xb77a3168) = 1048
+clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xb77a3168) = 1051
+clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xb77a3168) = 1054
+getpid()                                = 1047
+nanosleep({tv_sec=1, tv_nsec=0}, 0xbfca0ae8) = 0
+write(1, "Press ENTER key to Continue\n", 28) = 28
+nanosleep({tv_sec=1, tv_nsec=0}, 0xbfca0ae8) = 0
+fstat64(0, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 0), ...}) = 0
+read(0, 0x62c410, 1024)                 = ? ERESTARTSYS (To be restarted if SA_RESTART is set)
+--- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=1051, si_uid=1000, si_status=0, si_utime=0, si_stime=0} ---
+read(0, 0x62c410, 1024)                 = ? ERESTARTSYS (To be restarted if SA_RESTART is set)
+--- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=1048, si_uid=1000, si_status=0, si_utime=0, si_stime=0} ---
+read(0, 0x62c410, 1024)                 = ? ERESTARTSYS (To be restarted if SA_RESTART is set)
+--- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=1054, si_uid=1000, si_status=0, si_utime=0, si_stime=0} ---
+read(0, "\n", 1024)                     = 1
+write(1, "Process 1047 ended\n", 19)    = 19
+exit_group(0)                           = ?
++++ exited with 0 +++
+```
 In fork.c line 9 calls clone(), the correspoding line in log is line 29: 
 clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xb77a3    168) = 1048
 
@@ -156,40 +157,37 @@ The first argument of open() is the path of the file to open, the second are fla
 write() is discussed before.
 
 close() according to man page of close(2) takes one argument which is the file descriptor, return 0 when success.
-
+```
 The same strace command is used as before and the log file is below:
-
-```c
-  1 execve("./a.out", ["./a.out"], [/* 20 vars */]) = 0
-  2 brk(NULL)                               = 0x18c7000
-  3 access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
-  4 mmap2(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb7771000
-  5 access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
-  6 open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
-  7 fstat64(3, {st_mode=S_IFREG|0644, st_size=99587, ...}) = 0
-  8 mmap2(NULL, 99587, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb7758000
-  9 close(3)                                = 0
- 10 access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
- 11 open("/lib/i386-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
- 12 read(3, "\177ELF\1\1\1\3\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\0\204\1\0004\0\0\0"..., 512) = 512
- 13 fstat64(3, {st_mode=S_IFREG|0755, st_size=1791908, ...}) = 0
- 14 mmap2(NULL, 1800700, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0xb75a0000
- 15 mprotect(0xb7751000, 4096, PROT_NONE)   = 0
- 16 mmap2(0xb7752000, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b1000)     = 0xb7752000
- 17 mmap2(0xb7755000, 10748, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0xb    7755000
- 18 close(3)                                = 0
- 19 set_thread_area({entry_number:-1, base_addr:0xb7772100, limit:1048575, seg_32bit:1, contents:0,     read_exec_only:0, limit_in_pages:1, seg_not_present:0, useable:1}) = 0 (entry_number:6)
- 20 mprotect(0xb7752000, 8192, PROT_READ)   = 0
- 21 mprotect(0x46b000, 4096, PROT_READ)     = 0
- 22 mprotect(0xb779a000, 4096, PROT_READ)   = 0
- 23 munmap(0xb7758000, 99587)               = 0
- 24 open("./output.txt", O_RDWR|O_CREAT|O_APPEND, 0700) = 3
- 25 write(3, "Write something!\n", 17)      = 17
- 26 close(3)                                = 0
- 27 exit_group(0)                           = ?
- 28 +++ exited with 0 +++
- ```
-
+execve("./a.out", ["./a.out"], [/* 20 vars */]) = 0
+brk(NULL)                               = 0x18c7000
+access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
+mmap2(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb7771000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+fstat64(3, {st_mode=S_IFREG|0644, st_size=99587, ...}) = 0
+mmap2(NULL, 99587, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb7758000
+close(3)                                = 0
+access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
+open("/lib/i386-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\1\1\1\3\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\0\204\1\0004\0\0\0"..., 512) = 512
+fstat64(3, {st_mode=S_IFREG|0755, st_size=1791908, ...}) = 0
+mmap2(NULL, 1800700, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0xb75a0000
+mprotect(0xb7751000, 4096, PROT_NONE)   = 0
+mmap2(0xb7752000, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b1000) = 0xb7752000
+mmap2(0xb7755000, 10748, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0xb7755000
+close(3)                                = 0
+set_thread_area({entry_number:-1, base_addr:0xb7772100, limit:1048575, seg_32bit:1, contents:0, read_exec_only:0, limit_in_pages:1, seg_not_present:0, useable:1}) = 0 (entry_number:6)
+mprotect(0xb7752000, 8192, PROT_READ)   = 0
+mprotect(0x46b000, 4096, PROT_READ)     = 0
+mprotect(0xb779a000, 4096, PROT_READ)   = 0
+munmap(0xb7758000, 99587)               = 0
+open("./output.txt", O_RDWR|O_CREAT|O_APPEND, 0700) = 3
+write(3, "Write something!\n", 17)      = 17
+close(3)                                = 0
+exit_group(0)                           = ?
++++ exited with 0 +++
+```
 As we can see above, from line 24 to line 26 the system calls are sucessfull.
 
 *(b)*
@@ -207,6 +205,7 @@ the user can't easily crash the system.
 Run the follwing command in termimal:
 ```console
 fangwenliao@debian:~$ watch -n.1 "cat /proc/interrupts"
+```
 ```
 Every 0.1s: cat /proc/interrupts                                                    debian: Tue Dec  7 23:03:48 2021
 
@@ -242,7 +241,7 @@ ERR:          0
 MIS:          0
 PIN:          0          0          0          0   Posted-interrupt notification event
 PIW:          0          0          0          0   Posted-interrupt wakeup event
-
+```
 [Each column has its
 meanings](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-interrupts):
 The first one is IRQ number, the next four are interrupt numbers of each CPU,
