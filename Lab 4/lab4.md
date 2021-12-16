@@ -248,4 +248,81 @@ PIW:          0          0          0          0   Posted-interrupt wakeup event
 [Each column has its
 meanings](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-interrupts):
 The first one is IRQ number, the next four are interrupt numbers of each CPU,
-the next is the type of interrupts and the last is the device.
+the next is the type of interrupts and the last is the device that caused the
+interrupt.
+
+IRQ 0 
+System timer
+A software clock, update time and date, update time passed after system start
+When a process is running, the system timer record its running time, and when
+it exceed its allocated time, the timer will send a interrupt to [preempt it.](https://www.oreilly.com/library/view/understanding-the-linux/0596000022/0596000022_ch05-5-fm2xml.html)
+
+
+IRQ 1
+[Keyboard and mouse
+controller](https://github.com/torvalds/linux/blob/master/drivers/input/serio/i8042.c)
+Handels keyboard and mouse input.
+When press and release a key, the system will call two interruput to handel the
+input content.
+
+
+IRQ 8
+Real-time clock
+Another hardware clock, according to man page of rtc(4), it record the wall clock time, its has own backup
+power when the machine is turned off, it is not system lock.
+It will generate interrupts when a previously set alarm time is reached.
+
+IRQ 9 
+ACPI stands for advanced Configuration and Power Interface. 
+It [provide a open standard for OS to perform power
+management](https://en.wikipedia.org/wiki/Advanced_Configuration_and_Power_Interface). It defines a hardware abstraction interface between device firmware, computer hardware and OS.
+It raise interrupts when a General purpose event happens such as [plug the AC
+adapter or close the lid of
+laptop](https://askubuntu.com/questions/148726/what-is-an-acpi-gpe-storm).
+
+IRQ 12 
+Again the keyboard and mouse controller, like in IRQ 1
+
+IRQ 14 
+[Intel PATA/SATA
+controllers](https://github.com/torvalds/linux/blob/master/drivers/ata/ata_piix.c)
+
+
+IRQ 15
+Like the one in IRQ 14, the second hard drive.
+
+IRQ 16
+Ehternet network perepherial
+en means ethernet, p0 is bus number 0 and s3 is slot number 8, it is a example
+of [name
+scheme](https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/) for a network device.
+It will generate interrupts when the system need to send package or to deal
+with received package.
+
+IRQ 18
+A graphic driver for linux from VMware.
+It provides an [acceleration architecure for 2d and
+3d](https://communities.vmware.com/t5/VMware-Workstation-Pro/Linux-guests-vmwgfx-Testing/td-p/827398)
+When something happens in the GPU it will raise a interrupt.
+
+IRQ 19
+Another ethernet interface like the one in IRQ 16, this one is in slot 3.
+
+IRQ 20
+VBox Guest Addtion driver
+It [improves the usability and
+performance](https://www.virtualbox.org/manual/ch04.html) of guest operating system runs in
+virtualbox.
+When the guest need to synchronize time with the host, it will call a
+interuppt.
+
+IRQ 21
+Advanced Host Controller Interface developed by Intel
+it is a native work mode for SATA drives, [support hot pluggable SATA
+drives](https://wiki.archlinux.org/title/AHCI).
+ 
+IRQ 22
+Host controller interface
+[Enables a USB hardware to communicate with a host controller driver in
+software.](https://en.wikipedia.org/wiki/Host_controller_interface_(USB,_Firewire)
+When a USB device is plugged in or out it will raise an interrupt
