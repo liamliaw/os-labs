@@ -37,6 +37,54 @@ Process 1047 ended
 ```
 The content in the log file is below:
 ```
+  1 execve("./fork", ["./fork"], [/* 20 vars */]) = 0
+  2 brk(NULL)                               = 0x62c000
+  3 access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
+  4 mmap2(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb77a2000
+  5 access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+  6 open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+  7 fstat64(3, {st_mode=S_IFREG|0644, st_size=99587, ...}) = 0
+  8 mmap2(NULL, 99587, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb7789000
+  9 close(3)                                = 0
+ 10 access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
+ 11 open("/lib/i386-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+ 12 read(3, "\177ELF\1\1\1\3\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\0\204\1\0004\0\0\0"..., 512) = 512
+ 13 fstat64(3, {st_mode=S_IFREG|0755, st_size=1791908, ...}) = 0
+ 14 mmap2(NULL, 1800700, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0xb75d1000
+ 15 mprotect(0xb7782000, 4096, PROT_NONE)   = 0
+ 16 mmap2(0xb7783000, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b1000) = 0xb7783000
+ 17 mmap2(0xb7786000, 10748, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0xb7786000
+ 18 close(3)                                = 0
+ 19 set_thread_area({entry_number:-1, base_addr:0xb77a3100, limit:1048575, seg_32bit:1, contents:0, read_exec_only:0, limit_in_pages    :1, seg_not_present:0, useable:1}) = 0 (entry_number:6)
+ 20 mprotect(0xb7783000, 8192, PROT_READ)   = 0
+ 21 mprotect(0x4aa000, 4096, PROT_READ)     = 0
+ 22 mprotect(0xb77cb000, 4096, PROT_READ)   = 0
+ 23 munmap(0xb7789000, 99587)               = 0
+ 24 getpid()                                = 1047
+ 25 fstat64(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 0), ...}) = 0
+ 26 brk(NULL)                               = 0x62c000
+ 27 brk(0x64d000)                           = 0x64d000
+ 28 write(1, "Main process PID: 1047\n", 23) = 23
+ 29 clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xb77a3168) = 1048
+ 30 clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xb77a3168) = 1051
+ 31 clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xb77a3168) = 1054
+ 32 getpid()                                = 1047
+ 33 nanosleep({tv_sec=1, tv_nsec=0}, 0xbfca0ae8) = 0
+ 34 write(1, "Press ENTER key to Continue\n", 28) = 28
+ 35 nanosleep({tv_sec=1, tv_nsec=0}, 0xbfca0ae8) = 0
+ 36 fstat64(0, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 0), ...}) = 0
+ 37 read(0, 0x62c410, 1024)                 = ? ERESTARTSYS (To be restarted if SA_RESTART is set)
+ 38 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=1051, si_uid=1000, si_status=0, si_utime=0, si_stime=0} ---
+ 39 read(0, 0x62c410, 1024)                 = ? ERESTARTSYS (To be restarted if SA_RESTART is set)
+ 40 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=1048, si_uid=1000, si_status=0, si_utime=0, si_stime=0} ---
+ 41 read(0, 0x62c410, 1024)                 = ? ERESTARTSYS (To be restarted if SA_RESTART is set)
+ 42 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=1054, si_uid=1000, si_status=0, si_utime=0, si_stime=0} ---
+ 43 read(0, "\n", 1024)                     = 1
+ 44 write(1, "Process 1047 ended\n", 19)    = 19
+ 45 exit_group(0)                           = ?
+ 46 +++ exited with 0 +++
+```
+```
 execve("./fork", ["./fork"], [/* 20 vars */]) = 0
 brk(NULL)                               = 0x62c000
 access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
