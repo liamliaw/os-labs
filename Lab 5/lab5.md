@@ -35,10 +35,21 @@ excuted automatically, Thread1 will never be able to get the resource.
 ## Exercise 4
 *(a)*
 The provided sh files have problems when running, to solve this problem, we
-copy them and run them inside the virtual machinei.
+can also just copy them and run them inside the virtual machine.
+
 ```console
 fangwenliao@debian:~/Downloads/OS_Lab5/kernel$ uname -a
 Linux debian 4.9.0-16-686 #1 SMP Debian 4.9.272-2 (2021-07-19) i686 GNU/Linux
+```
+*(b)*
+To run the compile.sh, we first need to apt install time. After the compile.sh
+is done, change to root user and use the -i option of dkpg to install the
+pakage.
+
+*(c)*
+```console
+fangwenliao@debian:~$ uname -a
+Linux debian 4.19.152 #1 SMP Sat Jan 8 08:30:56 CET 2022 i686 GNU/Linux
 ```
 
 ## Exercise 5
