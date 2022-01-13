@@ -34,16 +34,19 @@ excuted automatically, Thread1 will never be able to get the resource.
 
 ## Exercise 4
 *(a)*
-The provided sh files have problems when running, to solve this problem, we
-can also just copy them and run them inside the virtual machine.
+The provided sh files have problems when running, to solve this problem, we use
+dos2unix command to convert the file, or we
+can also just copy them to a new file and run them inside the virtual machine.
 
 ```console
 fangwenliao@debian:~/Downloads/OS_Lab5/kernel$ uname -a
 Linux debian 4.9.0-16-686 #1 SMP Debian 4.9.272-2 (2021-07-19) i686 GNU/Linux
 ```
 *(b)*
-To run the compile.sh, we first need to apt install time. After the compile.sh
-is done, change to root user and use the -i option of dkpg to install the
+To run the compile.sh, we first need to apt install time or it will have errors
+when running the script, or we can just delete the time, since only the make
+command really matters. After the
+compile.sh is done, change to root user and use the -i option of dkpg to install the
 pakage.
 
 *(c)*
@@ -53,4 +56,24 @@ Linux debian 4.19.152 #1 SMP Sat Jan 8 08:30:56 CET 2022 i686 GNU/Linux
 ```
 
 ## Exercise 5
+*(a)*
+our code is as below:
+```c
+SYSCALL_DEFINE1(newcall, int, nice_value)
+{
+        int pid = task_tgid_vnr(current);
+        struct task_struct *p;
+        p = find_task_by_vpid(pid);
+        int ni = task_nice(p);
+        printk("PID: %d, Nice Value:%d.\n", pid, ni);
+        set_user_nice(p, nice_value);
+        return pid;
+}
+```
+*(b)*
+we enter the following code in syscall_32.tbl
+```
+387     i386    newcall                 sys_newcall                     __ia32_sys_newcall
+```
+
 
