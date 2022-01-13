@@ -57,14 +57,20 @@ Linux debian 4.19.152 #1 SMP Sat Jan 8 08:30:56 CET 2022 i686 GNU/Linux
 
 ## Exercise 5
 *(a)*
-our code is as below:
+our code is as below, the task_tgid_vnr, find_task_by_vpid, task_nice and
+set_user_nice are all used in sys.c before, it is fine to use them here, we put
+them between line 2579 and line 2591, note it can not be put inside #ifdef,
+otherwise it will get errors while compiling.
 ```c
 SYSCALL_DEFINE1(newcall, int, nice_value)
 {
-        int pid = task_tgid_vnr(current);
+        int pid;
         struct task_struct *p;
+        int ni;
+
+        pid = task_tgid_vnr(current);
         p = find_task_by_vpid(pid);
-        int ni = task_nice(p);
+        ni = task_nice(p);
         printk("PID: %d, Nice Value:%d.\n", pid, ni);
         set_user_nice(p, nice_value);
         return pid;
@@ -75,5 +81,87 @@ we enter the following code in syscall_32.tbl
 ```
 387     i386    newcall                 sys_newcall                     __ia32_sys_newcall
 ```
+*(c)*
+repeat the process in 4
+*(d)*
+our code is like below:
+```c
+#include <stdio.h>
 
+int main(void)
+{
+        int pid;
+        
+        pid = syscall(387, 11);
+        printf("Current PID: %d", pid);
+        while(1)
+        {
+
+        }
+
+        return pid;
+}
+```
+*(e)*
+```console
+fangwenliao@debian:~/Downloads/kernel$ gcc test.c
+test.c: In function ‘main’:
+test.c:7:8: warning: implicit declaration of function ‘syscall’ [-Wimplicit-function-declaration]
+  pid = syscall(387, 11);
+fangwenliao@debian:~/Downloads/kernel$ strace ./a.out 
+execve("./a.out", ["./a.out"], [/* 48 vars */]) = 0
+brk(NULL)                               = 0x10cf000
+access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
+mmap2(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb7ed9000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+fstat64(3, {st_mode=S_IFREG|0644, st_size=100353, ...}) = 0
+mmap2(NULL, 100353, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb7ec0000
+close(3)                                = 0
+access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
+open("/lib/i386-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\1\1\1\3\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\0\204\1\0004\0\0\0"..., 512) = 512
+fstat64(3, {st_mode=S_IFREG|0755, st_size=1791908, ...}) = 0
+mmap2(NULL, 1800700, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0xb7d08000
+mprotect(0xb7eb9000, 4096, PROT_NONE)   = 0
+mmap2(0xb7eba000, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b1000) = 0xb7eba000
+mmap2(0xb7ebd000, 10748, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0xb7ebd000
+close(3)                                = 0
+set_thread_area({entry_number:-1, base_addr:0xb7eda100, limit:1048575, seg_32bit:1, contents:0, read_exec_only:0, limit_in_pages:1, seg_not_present:0, useable:1}) = 0 (entry_number:6)
+mprotect(0xb7eba000, 8192, PROT_READ)   = 0
+mprotect(0x453000, 4096, PROT_READ)     = 0
+mprotect(0xb7f03000, 4096, PROT_READ)   = 0
+munmap(0xb7ec0000, 100353)              = 0
+syscall_387(0xb, 0x1, 0x4525e7, 0x1, 0xbfefcc24, 0xbfefcc2c) = 0x6ab
+fstat64(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 0), ...}) = 0
+brk(NULL)                               = 0x10cf000
+brk(0x10f0000)                          = 0x10f0000
+^Z
+[1]+  Stopped                 strace ./a.out
+```
+*(f)*
+we use the ps command to check the nice value of a.out, as is shown the nice
+value has changed to the value we wanted.
+```console
+fangwenliao@debian:~/Downloads/kernel$ ps -al
+F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
+0 S   117   761   757  0  80   0 - 19524 -      tty1     00:00:00 gnome-session-
+0 S   117   769   761  1  80   0 - 226673 -     tty1     00:00:03 gnome-shell
+0 S   117   791   769  0  80   0 - 36889 -      tty1     00:00:00 Xwayland
+0 S   117   827   761  0  80   0 - 129986 -     tty1     00:00:00 gnome-settings
+4 S  1000  1146  1144  1  80   0 - 45691 epoll_ tty2     00:00:02 Xorg
+0 S  1000  1160  1144  0  80   0 - 19557 poll_s tty2     00:00:00 gnome-session-
+0 S  1000  1290  1160  4  80   0 - 237140 poll_s tty2    00:00:09 gnome-shell
+0 S  1000  1392  1160  0  80   0 - 105763 poll_s tty2    00:00:00 gnome-settings
+0 S  1000  1412  1160  6  99  19 - 49561 poll_s tty2     00:00:12 tracker-extrac
+0 S  1000  1415  1160  0  80   0 - 40516 poll_s tty2     00:00:00 gnome-software
+0 S  1000  1416  1160 53  99  19 - 34674 poll_s tty2     00:01:43 tracker-miner-
+0 S  1000  1417  1160  0  99   - - 15567 poll_s tty2     00:00:00 tracker-miner-
+0 S  1000  1420     1  0  80   0 - 18219 poll_s tty2     00:00:00 gsd-printer
+0 S  1000  1421  1160  0  80   0 - 59929 poll_s tty2     00:00:00 evolution-alar
+0 S  1000  1424  1160  0  99   - - 21444 poll_s tty2     00:00:00 tracker-miner-
+0 T  1000  1705  1630  0  80   0 -   709 signal pts/0    00:00:00 strace
+0 t  1000  1707  1705 42  91  11 -   553 ptrace pts/0    00:00:07 a.out
+0 R  1000  1708  1630  0  80   0 -  1851 -      pts/0    00:00:00 ps
+```
 
