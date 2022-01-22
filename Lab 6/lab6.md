@@ -64,8 +64,9 @@ CONFIG_VMSPLIT_3G=y
 # CONFIG_VMSPLIT_2G_OPT is not set
 # CONFIG_VMSPLIT_1G is not set
 ```
-As is shown the 3G barrier for user space memory is enabled, which prevent the
-user space process consumes all the memory and save the rest for kernel space,
+As is shown the 3G barrier for user space memory is enabled, set a limit for a single
+user space process, which prevent one
+user space process consumes all the memory and save some memory for kernel space,
 as the total memory space for 32 bit system is 2^32 bytes or 4 Gib.
 
 ## Exercise 3
