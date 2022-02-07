@@ -420,7 +420,7 @@ remove device:
 root@debian:/home/fangwenliao# mdadm --manage /dev/md127 --add /dev/sde
 mdadm: added /dev/sde
 ```
-*(d)*
+*(c)*
 ```console
 root@debian:/home/fangwenliao# mdadm --detail /dev/md127
 /dev/md127:
