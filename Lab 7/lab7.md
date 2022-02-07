@@ -244,7 +244,7 @@ some texts
 some texts
 ```
 *(g)*
-|File systems|ext4(/mnt/vol2)|
+| File systems | ext4(/mnt/vol2) |
 |Logical volume|newvol2(/dev/newgroup1/newvol2)|
 |Volume Group|newgroup1(/dev/newgroup1)|
 |Physical Volume|/dev/md127|
