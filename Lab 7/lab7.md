@@ -244,6 +244,14 @@ some texts
 some texts
 ```
 *(g)*
+|File systems|ext4(/mnt/vol2)|
+|Logical volume|newvol2(/dev/newgroup1/newvol2)|
+|Volume Group|newgroup1(/dev/newgroup1)|
+|Physical Volume|/dev/md127|
+|Mdadm Device|/dev/md127|
+|Physical Devices|/dev/sdc|/dev/sdd|/dev/sde|
+
+
 *(h)*
 ```console
 root@debian:/home/fangwenliao# pvs
@@ -369,9 +377,12 @@ some texts
 ```
 *(c)*
 [A RAID5 can only have 1 disk failure, if another disk fails, the whole array
-will fail.](https://en.wikipedia.org/wiki/RAID#Correlated_failures)
+will fail.](https://en.wikipedia.org/wiki/RAID#Correlated_failures)Thats why
+its not recommend to use in large systems.
 *(d)*
-Use RAID level 6, which can deal with multiple disk failures.
+Use RAID level 6, which [implemented double distributed
+parity,](https://en.wikipedia.org/wiki/RAID) can tolerate two disk failures.
+This benefits larger systems, however need at least four disks.
 
 ## Exercise 4
 *(a)*
